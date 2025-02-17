@@ -11,6 +11,9 @@ const BookInfo = ({ books }) => {
                         <Link to="/books" className="book__link">
                             <FontAwesomeIcon icon="arrow-left" />
                         </Link>
+                        <Link to="/book">
+                            <h2 className="book__selected--title--top">Books</h2>
+                        </Link>
                     </div>
                 </div>
             </div>
