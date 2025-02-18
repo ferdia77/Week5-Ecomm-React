@@ -11,7 +11,6 @@ const BookInfo = ({ books, addToCart, cart }) => {
 
   function addBookToCart() {
     addToCart(book);
-    addToCart(book);
   }
 
   function bookExistsOnCart() {
