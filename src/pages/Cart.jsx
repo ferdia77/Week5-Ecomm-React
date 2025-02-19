@@ -1,6 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-const Cart = ({ cart, changeQuantity }) => {
+const Cart = ({ cart, changeQuantity, removeItem }) => {
+  const total = () => {
+    let price = 0;
+    cart.forEach((item) => {
+      price += 
+      +(item.salePrice || item.originalPrice) * item.quantity;
+    });
+    return price;
+    };
+
+    
+
   return (
     <div id="books__body">
       <main id="books__main">
@@ -18,7 +29,7 @@ const Cart = ({ cart, changeQuantity }) => {
               <div className="cart__body">
                 {cart.map((book) => {
                   return (
-                    <div className="cart__item">
+                    <div className="cart__item" key={cart}>
                       <div className="cart__book">
                         <img
                           src={book.url}
@@ -29,8 +40,10 @@ const Cart = ({ cart, changeQuantity }) => {
                           <span className="cart__book--title">
                             {book.title}
                           </span>
-                          <span className="cart__book-price">${(book.salePrice || book.originalPrice).toFixed(2)}</span>
-                          <button className="cart__book--remove">Remove</button>
+                          <span className="cart__book-price">
+                            ${(book.salePrice || book.originalPrice).toFixed(2)}
+                          </span>
+                          <button className="cart__book--remove" onClick={() => removeItem(book)}>Remove</button>
                         </div>
                       </div>
                       <div className="cart__quantity">
@@ -40,8 +53,16 @@ const Cart = ({ cart, changeQuantity }) => {
                           max={99}
                           className="cart__input"
                           value={book.quantity}
-                          onChange={((event) => changeQuantity(book, event.target.value))}
+                          onChange={(event) =>
+                            changeQuantity(book, event.target.value)
+                          }
                         />
+                      </div>
+                      <div className="cart__total">
+                        $
+                        {(
+                          (book.salePrice || book.originalPrice) * book.quantity
+                        ).toFixed(2)}
                       </div>
                     </div>
                   );
@@ -51,15 +72,15 @@ const Cart = ({ cart, changeQuantity }) => {
             <div className="total">
               <div className="total__item total__sub-total">
                 <span>Subtotal</span>
-                <span>$9.00</span>
+                <span>${(total() * 0.9).toFixed(2)}</span>
               </div>
               <div className="total__item total__tax">
                 <span>Tax</span>
-                <span>$1.00</span>
+                <span>${(total() * 0.1).toFixed(2)}</span>
               </div>
               <div className="total__item total__price">
                 <span>Total</span>
-                <span>$10.00</span>
+                <span>${total().toFixed(2)}</span>
               </div>
               <button
                 className="btn btn__checkout no-cursor"
