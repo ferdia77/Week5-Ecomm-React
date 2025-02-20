@@ -7,6 +7,7 @@ import Books from "./pages/Books";
 import { books } from "./data";
 import BookInfo from "./pages/BookInfo";
 import Cart from "./pages/Cart";
+import { counter } from "@fortawesome/fontawesome-svg-core";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -33,6 +34,14 @@ function App() {
     console.log('removeItem', item)
 }
 
+function numberOfItems() {
+  let counter = 0
+  cart.forEach(item => {
+    counter += item.quantity
+  })
+  return counter
+}
+
   useEffect(() => {
     console.log(cart);
   }, [cart]);
@@ -40,7 +49,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Nav />
+        <Nav numberOfItems={numberOfItems()} />
         <Route path="/" exact component={Home} />
         <Route path="/books" exact render={() => <Books books={books} />} />
         <Route
